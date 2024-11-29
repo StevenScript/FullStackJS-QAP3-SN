@@ -53,19 +53,45 @@ app.get("/signup", (request, response) => {
 });
 
 // POST /signup - Allows a user to signup
-app.post("/signup", (request, response) => {
+app.post("/signup", async (request, response) => {
   const { username, email, password } = request.body;
 
-  //  input validation
+  // Validate input
   if (!username || !email || !password) {
     return response.render("signup", { error: "All fields are required." });
   }
 
-  // Check for user already exists
+  // Check if email is already registered
   const userExists = USERS.some((user) => user.email === email);
   if (userExists) {
-    return response.render("signup", {
-      error: "Specified Email is Unavailable.",
+    return response.render("signup", { error: "Email is already registered." });
+  }
+
+  try {
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+
+    // Determine user role
+    const role = USERS.length === 0 ? "admin" : "user";
+
+    // Create new user object
+    const newUser = {
+      id: USERS.length + 1,
+      username,
+      email,
+      password: hashedPassword, // Store the hashed password
+      role,
+    };
+
+    // Add new user to USERS array
+    USERS.push(newUser);
+
+    // Redirect to login page
+    response.redirect("/login");
+  } catch (error) {
+    console.error(error);
+    response.render("signup", {
+      error: "An error occurred. Please try again.",
     });
   }
 });
