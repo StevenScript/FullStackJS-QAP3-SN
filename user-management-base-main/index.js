@@ -7,11 +7,6 @@ const bcrypt = require("bcrypt");
 const app = express();
 const PORT = 3000;
 const SALT_ROUNDS = 10;
-const {
-  isAuthenticated,
-  isNotAuthenticated,
-  isAdmin,
-} = require("./middleware/auth");
 
 // Configure app
 app.use(express.urlencoded({ extended: true }));

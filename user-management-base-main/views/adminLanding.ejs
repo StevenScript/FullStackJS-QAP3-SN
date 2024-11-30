@@ -1,17 +1,36 @@
-<%- include('partials/header', { title: "Admin Dashboard" }) %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin Dashboard</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      h1 {
+        color: #333;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      li {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome, Admin <%= user.username %>!</h1>
+    <h2>Registered Users:</h2>
+    <ul>
+      <% users.forEach(function(u) { %>
+      <li>
+        <strong>Username:</strong> <%= u.username %><br />
+        <strong>Email:</strong> <%= u.email %><br />
+        <strong>Role:</strong> <%= u.role %>
+      </li>
+      <% }); %>
+    </ul>
 
-<h1>Welcome, Admin <%= user.username %>!</h1>
-<h2>Registered Users:</h2>
-<ul>
-  <% users.forEach(function(u) { %>
-  <li>
-    <strong>Username:</strong> <%= u.username %><br />
-    <strong>Email:</strong> <%= u.email %><br />
-    <strong>Role:</strong> <%= u.role %>
-  </li>
-  <% }); %>
-</ul>
-
-<a href="/logout">Logout</a>
-
-<%- include('partials/footer') %>
+    <a href="/logout">Logout</a>
+  </body>
+</html>

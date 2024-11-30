@@ -1,8 +1,20 @@
-<%- include('partials/header', { title: "User Dashboard" }) %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>User Dashboard</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      h1 {
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome, <%= user.username %>!</h1>
+    <p>Your email: <%= user.email %></p>
 
-<h1>Welcome, <%= user.username %>!</h1>
-<p>Your email: <%= user.email %></p>
-
-<a href="/logout">Logout</a>
-
-<%- include('partials/footer') %>
+    <a href="/logout">Logout</a>
+  </body>
+</html>
