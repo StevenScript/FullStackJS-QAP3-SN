@@ -45,7 +45,53 @@ app.get("/login", (request, response) => {
 });
 
 // POST /login - Allows a user to login
-app.post("/login", (request, response) => {});
+app.post("/login", async (request, response) => {
+  const { email, password } = request.body;
+
+  // Validate input fields
+  if (!email || !password) {
+    return response.render("login", {
+      error: "Email and password are required.",
+    });
+  }
+
+  // Find the user by email
+  const user = USERS.find((user) => user.email === email);
+
+  if (!user) {
+    // User not found
+    return response.render("login", { error: "Invalid email or password." });
+  }
+
+  try {
+    // Compare the provided password with the stored hashed password
+    const match = await bcrypt.compare(password, user.password);
+
+    if (match) {
+      // Passwords match - authentication successful
+
+      // Initiate user session
+      request.session.user = {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      };
+
+      // Redirect to landing page
+      return response.redirect("/landing");
+    } else {
+      // Passwords do not match
+      return response.render("login", { error: "Invalid email or password." });
+    }
+  } catch (error) {
+    // Handle errors during authentication
+    console.error("Error during user login:", error);
+    return response.render("login", {
+      error: "An error occurred. Please try again.",
+    });
+  }
+});
 
 // GET /signup - Render signup form
 app.get("/signup", (request, response) => {
@@ -53,6 +99,7 @@ app.get("/signup", (request, response) => {
 });
 
 // POST /signup - Allows a user to signup
+// added async to facilitate usage of "await"
 app.post("/signup", async (request, response) => {
   const { username, email, password } = request.body;
 
