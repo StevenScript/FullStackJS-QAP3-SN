@@ -1,0 +1,17 @@
+<%- include('partials/header', { title: "Admin Dashboard" }) %>
+
+<h1>Welcome, Admin <%= user.username %>!</h1>
+<h2>Registered Users:</h2>
+<ul>
+  <% users.forEach(function(u) { %>
+  <li>
+    <strong>Username:</strong> <%= u.username %><br />
+    <strong>Email:</strong> <%= u.email %><br />
+    <strong>Role:</strong> <%= u.role %>
+  </li>
+  <% }); %>
+</ul>
+
+<a href="/logout">Logout</a>
+
+<%- include('partials/footer') %>

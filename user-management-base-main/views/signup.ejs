@@ -8,11 +8,23 @@
 <form action="/signup" method="POST">
   <div class="form-input-container">
     <label for="email">Email:</label>
-    <input type="email" name="email" id="email" required />
+    <input
+      type="email"
+      name="email"
+      id="email"
+      value="<%= email || '' %>"
+      required
+    />
   </div>
   <div class="form-input-container">
     <label for="username">Username:</label>
-    <input type="text" name="username" id="username" required />
+    <input
+      type="text"
+      name="username"
+      id="username"
+      value="<%= username || '' %>"
+      required
+    />
   </div>
   <div class="form-input-container">
     <label for="password">Password:</label>
